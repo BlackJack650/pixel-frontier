@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <meta name="theme-color" content="#08191d">
+  <title>Pixel Frontier — Territory. Tactics. Total control.</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <canvas id="world" aria-label="Interactive world map"></canvas>
+  <div class="world-vignette"></div>
+  <div id="app">
+    <header id="menuBar" class="menu-bar">
+      <button class="wordmark wordmark-button" data-action="menu" aria-label="Main menu"><span class="brand-mark">PF</span><span>PIXEL <b>FRONTIER</b></span></button>
+      <div class="menu-bar-right">
+        <span id="netStatus" class="status-pill"><i></i> CONNECTING</span>
+        <button class="icon-button" data-action="audio" aria-label="Toggle audio" data-icon="volume"></button>
+        <button class="icon-button" data-action="settings" aria-label="Settings" data-icon="sliders"></button>
+      </div>
+    </header>
+
+    <main id="menuScreen" class="screen menu-screen">
+      <section class="hero">
+        <div class="eyebrow"><span class="live-dot"></span> TACTICAL NETWORK / V0.1</div>
+        <h1>PIXEL<br><span>FRONTIER</span></h1>
+        <p class="hero-copy">Draw the front line. Build your stronghold.<br>Turn a single pixel into a world power.</p>
+        <div class="menu-actions">
+          <button class="primary-button jumbo" data-action="solo"><span data-icon="play"></span><span><small>INSTANT DEPLOYMENT</small>SINGLE PLAYER</span><b>01</b></button>
+          <button class="secondary-button jumbo" data-action="multiplayer"><span data-icon="users"></span><span><small>UP TO 20 COMMANDERS</small>MULTIPLAYER</span><b>02</b></button>
+        </div>
+        <div class="minor-actions">
+          <button data-action="help">FIELD MANUAL <span>↗</span></button>
+          <button data-action="settings">SETTINGS <span>↗</span></button>
+        </div>
+      </section>
+      <aside class="theater-card">
+        <div class="theater-head"><span>WORLD THEATER</span><span class="mono">MERIDIAN–01</span></div>
+        <div class="theater-coords mono"><span>192 × 96 GRID</span><span>300 SECTORS</span></div>
+        <div class="theater-footer"><span><i></i> SIMULATION READY</span><span>SEED 71273</span></div>
+      </aside>
+      <footer class="menu-footer"><span>AUTHORITATIVE SERVER</span><span>NO EXTERNAL ASSETS</span><span>20 HZ SIMULATION</span><span class="version">BUILD 0.1.0</span></footer>
+    </main>
+
+    <main id="soloScreen" class="screen setup-screen hidden">
+      <section class="panel setup-panel">
+        <button class="back-button" data-action="menu"><span data-icon="arrow"></span> BACK TO COMMAND</button>
+        <div class="section-kicker">NEW CAMPAIGN / SOLO</div>
+        <h2>Define your theater.</h2>
+        <p class="muted">One commander. A world of rival algorithms.</p>
+        <div class="form-grid">
+          <label class="field"><span>CALLSIGN</span><input id="playerName" maxlength="18" value="Commander" autocomplete="off"></label>
+          <label class="field"><span>WORLD SEED</span><div class="input-action"><input id="seedInput" type="number" value="42042"><button id="randomSeed" title="Randomize seed">↻</button></div></label>
+        </div>
+        <div class="field"><span>AI OPPONENTS <output id="botCountOut">7</output></span><input id="botCount" type="range" min="1" max="15" value="7"><div class="range-labels"><span>1</span><span>15</span></div></div>
+        <div class="field"><span>AI DOCTRINE</span><div id="difficultyPicker" class="segmented six" data-setting="difficulty"><button data-value="1">I</button><button data-value="2">II</button><button data-value="3">III</button><button data-value="4">IV</button><button data-value="5">V</button><button data-value="mixed" class="active">MIXED</button></div></div>
+        <div class="form-grid three">
+          <div class="field"><span>GAME SPEED</span><div id="speedPicker" class="segmented" data-setting="speed"><button data-value="0.5">½×</button><button class="active" data-value="1">1×</button><button data-value="2">2×</button><button data-value="4">4×</button></div></div>
+          <div class="field"><span>PEACE PROTOCOL</span><div id="peacePicker" class="segmented" data-setting="peaceSeconds"><button data-value="0">OFF</button><button class="active" data-value="10">10S</button><button data-value="30">30S</button></div></div>
+          <div class="field"><span>MAP SIZE</span><div id="mapPicker" class="segmented" data-setting="mapSize"><button class="active" data-value="standard">300</button><button data-value="large">350</button></div></div>
+        </div>
+        <details class="advanced-settings"><summary>ADVANCED PARAMETERS <span>+</span></summary><div class="form-grid">
+          <label class="field"><span>STARTING TROOPS <output id="troopMultOut">100%</output></span><input id="troopMultiplier" type="range" min="0.5" max="3" step="0.25" value="1"></label>
+          <label class="field"><span>STARTING CREDITS <output id="economyMultOut">100%</output></span><input id="economyMultiplier" type="range" min="0.5" max="5" step="0.5" value="1"></label>
+        </div></details>
+        <button id="startSolo" class="primary-button deploy-button"><span>INITIALIZE CAMPAIGN</span><small>GENERATE WORLD <b>→</b></small></button>
+      </section>
+      <aside class="briefing panel">
+        <div class="section-kicker">MISSION BRIEF</div><h3>Total control.</h3>
+        <div class="brief-graphic"><span class="crosshair-graphic"></span><b>25%</b><small>WORLD CONTROL TO WIN</small></div>
+        <ol class="brief-list"><li><b>01</b><span>Claim neutral sectors and connect your borders.</span></li><li><b>02</b><span>Invest in habitats to raise your troop ceiling.</span></li><li><b>03</b><span>Layer infrastructure. Every level changes the war.</span></li></ol>
+        <div class="tip"><span data-icon="info"></span><p>Attacks resolve only when the pixel front reaches its target. Timing is territory.</p></div>
+      </aside>
+    </main>
+
+    <main id="multiplayerScreen" class="screen setup-screen hidden">
+      <section class="panel setup-panel">
+        <button class="back-button" data-action="menu"><span data-icon="arrow"></span> BACK TO COMMAND</button>
+        <div class="section-kicker">TACTICAL NETWORK / ONLINE</div><h2>Enter the network.</h2><p class="muted">Create a room or deploy with an existing squad.</p>
+        <label class="field"><span>CALLSIGN</span><input id="multiName" maxlength="18" value="Commander" autocomplete="off"></label>
+        <div class="multi-actions"><button id="createMulti" class="primary-button"><span data-icon="globe"></span> CREATE WAR ROOM</button><div class="or">OR JOIN BY CODE</div><div class="join-row"><input id="joinCode" maxlength="6" placeholder="A7K2Q9" autocomplete="off" spellcheck="false"><button id="joinMulti" class="secondary-button">JOIN →</button></div></div>
+        <div class="room-list-head"><span>OPEN WAR ROOMS</span><button id="refreshRooms">REFRESH ↻</button></div>
+        <div id="roomList" class="room-list"><div class="empty-state">Scanning the network…</div></div>
+      </section>
+      <aside class="briefing panel network-brief"><div class="section-kicker">NETWORK PROTOCOL</div><h3>Same world.<br>Same truth.</h3><div class="network-stat"><b>20</b><span>HZ AUTHORITATIVE<br>SIMULATION</span></div><div class="network-stat"><b>10</b><span>SNAPSHOTS / SECOND<br>DELTA COMPRESSED</span></div><div class="network-stat"><b>90</b><span>SECONDS TO RESTORE<br>A DROPPED COMMANDER</span></div><p class="muted small">The server owns every troop, credit and dice roll. Your client sends intent — never outcomes.</p></aside>
+    </main>
+
+    <main id="lobbyScreen" class="screen lobby-screen hidden">
+      <section class="panel lobby-panel">
+        <div class="lobby-top"><div><div class="section-kicker">WAR ROOM / ASSEMBLY</div><h2>Squad deployment</h2></div><button class="room-code" id="copyCode"><small>ROOM CODE</small><b id="lobbyCode">------</b><span>CLICK TO COPY</span></button></div>
+        <div class="lobby-grid"><div><div class="panel-label"><span>COMMANDERS</span><span id="slotCount">1 / 20</span></div><div id="lobbyPlayers" class="lobby-players"></div><button id="addBot" class="secondary-button add-bot">+ ADD AI COMMANDER</button></div><aside class="lobby-settings"><div class="panel-label">HOST CONTROLS</div><label class="field"><span>BOT DIFFICULTY</span><select id="lobbyDifficulty"><option value="mixed">Mixed</option><option value="1">Level I</option><option value="2">Level II</option><option value="3">Level III</option><option value="4">Level IV</option><option value="5">Level V</option></select></label><div class="tip"><span data-icon="shield"></span><p>Empty slots can be filled with AI. Disconnected commanders return to the same nation for 90 seconds.</p></div></aside></div>
+        <div class="lobby-footer"><button class="back-button" data-action="multiplayer">← LEAVE ROOM</button><button id="startMatch" class="primary-button">BEGIN COUNTDOWN <span>→</span></button></div>
+      </section>
+    </main>
+
+    <section id="gameUI" class="game-ui hidden">
+      <header class="game-topbar">
+        <div class="game-brand"><span class="brand-mark">PF</span><div><b id="nationName">COMMANDER</b><small><i id="nationColor"></i> YOUR NATION</small></div></div>
+        <div class="resource-strip">
+          <div class="resource"><span class="resource-icon">⚔</span><div><small>TROOPS / CAP</small><b><span id="troopsValue">0</span><em>/</em><span id="capValue">300</span></b><i id="growthValue">+0.3/s</i></div></div>
+          <div class="resource"><span class="resource-icon credit-icon">◆</span><div><small>CREDITS</small><b id="economyValue">200</b><i id="incomeValue">+0.06/s</i></div></div>
+          <div class="resource region-resource"><span class="resource-icon">▦</span><div><small>CONTROL</small><b><span id="regionsValue">1</span><em>/</em><span id="regionsTotal">300</span></b><i id="controlPercent">0.3% WORLD</i></div></div>
+        </div>
+        <div class="match-meta"><div><small id="phaseLabel">PEACE PROTOCOL</small><b id="matchTimer">00:00</b></div><button id="pauseButton" class="icon-button" title="Pause [Space]" data-icon="pause"></button><button class="icon-button" data-action="settings" data-icon="sliders"></button></div>
+      </header>
+
+      <aside id="leaderboard" class="hud-panel leaderboard"><div class="hud-title"><span>WORLD POWERS</span><small>TOP 5</small></div><div id="leaderRows"></div><div class="leader-footer">TAB — EXPAND</div></aside>
+      <aside id="regionInspector" class="hud-panel region-inspector hidden"><div class="hud-title"><span id="inspectName">SECTOR 000</span><button id="closeInspector" data-icon="close"></button></div><div class="inspect-stats"><div><small>CONTROL</small><b id="inspectOwner">NEUTRAL</b></div><div><small>GARRISON</small><b id="inspectTroops">0</b></div><div><small>AREA</small><b id="inspectArea">0</b></div></div><div id="inspectBuildings" class="inspect-buildings"></div><div id="inspectHint" class="inspect-hint">Select a source, then a hostile target.</div></aside>
+
+      <div id="eventFeed" class="event-feed" aria-live="polite"></div>
+      <div class="map-tools"><button id="zoomIn" title="Zoom in [E]">+</button><button id="zoomOut" title="Zoom out [Q]">−</button><button id="fitMap" title="Fit world">⌂</button></div>
+      <div id="zoomBadge" class="zoom-badge">1.0×</div>
+      <div id="fpsCounter" class="fps-counter hidden">60 FPS<br><small>0.0 MS</small></div>
+
+      <section class="command-dock">
+        <div class="attack-console">
+          <div class="dock-heading"><span><i class="attack-dot"></i> ATTACK FORCE</span><b><output id="attackPercentOut">50</output><small>%</small></b></div>
+          <div class="attack-slider-row"><span>0</span><input id="attackPercent" type="range" min="0" max="100" value="50" aria-label="Attack force percent"><span>100</span></div>
+          <div class="attack-presets"><button data-percent="10">10</button><button data-percent="25">25</button><button class="active" data-percent="50">50</button><button data-percent="100">100</button><button id="autoExpand" class="auto-expand" title="Automatically continue through weak neighboring sectors">AUTO-EXPAND <i></i></button></div>
+        </div>
+        <div class="build-console"><div class="dock-heading"><span>INFRASTRUCTURE</span><small>CLICK A SECTOR TO BUILD · B</small></div><div id="buildButtons" class="build-buttons"></div></div>
+        <div class="minimap-console"><div class="dock-heading"><span>WORLD MAP</span><small id="mapCoords">X:000 Y:00</small></div><canvas id="minimap" width="192" height="96"></canvas></div>
+      </section>
+      <div class="control-hint"><span>CLICK</span> SELECT / ATTACK <span>SHIFT + DRAG</span> BOX SELECT <span>DBL CLICK</span> ALL BORDERS</div>
+      <button id="chatToggle" class="chat-toggle hidden" data-icon="chat"></button>
+      <section id="chatPanel" class="hud-panel chat-panel hidden"><div class="hud-title">SQUAD COMMS <button id="closeChat" data-icon="close"></button></div><div id="chatMessages" class="chat-messages"></div><form id="chatForm"><input id="chatInput" maxlength="200" placeholder="Transmit message…"><button>↑</button></form></section>
+    </section>
+
+    <div id="countdown" class="countdown hidden"><small>SIMULATION BEGINS IN</small><b>3</b><span>PREPARE YOUR BORDERS</span></div>
+    <div id="connectionBanner" class="connection-banner hidden"><i></i><span>RECONNECTING TO TACTICAL NETWORK…</span></div>
+    <div id="toastStack" class="toast-stack" aria-live="polite"></div>
+    <div id="tutorial" class="tutorial hidden"><div class="tutorial-card"><small id="tutorialStep">FIELD MANUAL 1 / 5</small><h3 id="tutorialTitle"></h3><p id="tutorialText"></p><div><button id="skipTutorial">SKIP</button><button id="nextTutorial" class="primary-button">NEXT →</button></div></div></div>
+
+    <div id="resultModal" class="modal hidden"><section class="modal-card result-card"><div id="resultKicker" class="section-kicker">CAMPAIGN COMPLETE</div><div id="resultEmblem" class="result-emblem" data-icon="trophy"></div><h2 id="resultTitle">World secured.</h2><p id="resultSubtitle" class="muted"></p><div id="resultStats" class="result-stats"></div><div id="resultStandings" class="result-standings"></div><div class="modal-actions"><button id="rematchButton" class="primary-button">REMATCH ↻</button><button class="secondary-button" data-action="menu">MAIN MENU</button></div></section></div>
+
+    <div id="settingsModal" class="modal hidden"><section class="modal-card settings-card"><button class="modal-close" data-close="settingsModal" data-icon="close"></button><div class="section-kicker">SYSTEM / PREFERENCES</div><h2>Settings</h2><label class="setting-row"><span>MASTER VOLUME <output id="masterOut">70%</output></span><input id="masterVolume" type="range" min="0" max="1" step="0.05" value="0.7"></label><label class="setting-row"><span>SFX VOLUME <output id="sfxOut">80%</output></span><input id="sfxVolume" type="range" min="0" max="1" step="0.05" value="0.8"></label><label class="setting-row"><span>MUSIC VOLUME <output id="musicOut">15%</output></span><input id="musicVolume" type="range" min="0" max="1" step="0.05" value="0.15"></label><label class="toggle-row"><span>REDUCED MOTION<small>Disable particles and camera shake</small></span><input id="reducedMotion" type="checkbox"></label><label class="toggle-row"><span>PERFORMANCE COUNTERS<small>F3 — FPS and render time</small></span><input id="showFps" type="checkbox"></label><div class="shortcuts"><div class="panel-label">FIELD SHORTCUTS</div><div><span><kbd>WASD</kbd> PAN</span><span><kbd>Q / E</kbd> ZOOM</span><span><kbd>1—5</kbd> FORCE</span><span><kbd>SPACE</kbd> PAUSE</span><span><kbd>B</kbd> BUILD</span><span><kbd>TAB</kbd> POWERS</span><span><kbd>ESC</kbd> MENU</span><span><kbd>F3</kbd> FPS</span></div></div></section></div>
+
+    <div id="helpModal" class="modal hidden"><section class="modal-card help-card"><button class="modal-close" data-close="helpModal" data-icon="close"></button><div class="section-kicker">FIELD MANUAL / 60 SECONDS</div><h2>From one pixel<br>to world power.</h2><div class="help-grid"><article><b>01</b><h3>SELECT</h3><p>Click your sectors. Shift-drag selects an area; double-click selects every border sector.</p></article><article><b>02</b><h3>ATTACK</h3><p>Set 0–100% force, then click an adjacent hostile or neutral sector. Ports cross short straits.</p></article><article><b>03</b><h3>BUILD</h3><p>Choose infrastructure, then click your land. Click the same type again to upgrade it to level 5.</p></article><article><b>04</b><h3>DOMINATE</h3><p>Control 25% of all sectors or remain the last nation standing. Habitat levels raise troop cap.</p></article></div><button class="primary-button" data-close="helpModal">UNDERSTOOD</button></section></div>
+  </div>
+  <script type="module" src="/main.js"></script>
+</body>
+</html>

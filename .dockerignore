@@ -1,0 +1,9 @@
+node_modules
+npm-debug.log
+.git
+.cache
+.npm
+uploads
+docs/screenshots
+*.zip
+data/profile.json

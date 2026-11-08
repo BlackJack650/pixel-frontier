@@ -1,0 +1,20 @@
+{
+  "name": "pixel-frontier",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Authoritative multiplayer pixel territory strategy",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "node server/index.js",
+    "build:map": "node tools/buildMap.js",
+    "test": "node --test tests/*.test.js",
+    "sim": "node tools/simulate.js",
+    "smoke:network": "node tools/smokeNetwork.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "ws": "^8.18.0"
+  }
+}
