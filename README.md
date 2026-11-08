@@ -2,6 +2,9 @@
 
 Адаптивная пиксельная стратегия захвата территорий: одиночная игра против утилитарного ИИ и авторитетные multiplayer-комнаты на Node.js. Работает без сборки и без внешних CDN, шрифтов, картинок или аудиофайлов.
 
+**Публичный запуск:** https://pixel-frontier-eoqt.onrender.com  
+**Репозиторий:** https://github.com/BlackJack650/pixel-frontier
+
 ![Игровой экран Pixel Frontier](docs/screenshots/interaction.png)
 
 ## Запуск

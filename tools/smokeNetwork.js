@@ -1,9 +1,10 @@
 import WebSocket from 'ws';
 import assert from 'node:assert/strict';
 
+const WS_URL = process.env.PF_WS_URL || 'ws://127.0.0.1:3000/ws';
 class Client {
   constructor(){this.ws=null;this.messages=[];this.waiters=[];this.session=null;}
-  open(){return new Promise((resolve,reject)=>{this.ws=new WebSocket('ws://127.0.0.1:3000/ws');this.ws.on('open',resolve);this.ws.on('error',reject);this.ws.on('message',raw=>{const data=JSON.parse(raw);if(data.t==='WELCOME')this.session={clientId:data.clientId,sessionToken:data.sessionToken,code:data.code};this.messages.push(data);for(const waiter of [...this.waiters])if(waiter.pred(data)){clearTimeout(waiter.timer);this.waiters.splice(this.waiters.indexOf(waiter),1);waiter.resolve(data);}});});}
+  open(){return new Promise((resolve,reject)=>{this.ws=new WebSocket(WS_URL);this.ws.on('open',resolve);this.ws.on('error',reject);this.ws.on('message',raw=>{const data=JSON.parse(raw);if(data.t==='WELCOME')this.session={clientId:data.clientId,sessionToken:data.sessionToken,code:data.code};this.messages.push(data);for(const waiter of [...this.waiters])if(waiter.pred(data)){clearTimeout(waiter.timer);this.waiters.splice(this.waiters.indexOf(waiter),1);waiter.resolve(data);}});});}
   send(data){this.ws.send(JSON.stringify(data));}
   wait(pred,ms=5000){const found=this.messages.find(pred);if(found)return Promise.resolve(found);return new Promise((resolve,reject)=>{const waiter={pred,resolve,timer:setTimeout(()=>{this.waiters.splice(this.waiters.indexOf(waiter),1);reject(new Error(`Message wait timeout: ${pred} · seen ${JSON.stringify(this.messages)}`));},ms)};this.waiters.push(waiter);});}
   close(){this.ws.close();}
